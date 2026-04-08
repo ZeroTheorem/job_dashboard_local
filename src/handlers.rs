@@ -102,7 +102,7 @@ pub async fn get_dashboard(
         .get_worker_monthly_revenue_stats("даша", &date_bounds)
         .await?;
 
-    let sales_plan = state.database.get_plan().await?;
+    let sales_plan = state.database.get_plan(&date_bounds).await?;
 
     Ok(SuccessResponse::GetDashBoard {
         shifts_this_month: worker_1_monthly_stats.total_shifts.unwrap_or(0),

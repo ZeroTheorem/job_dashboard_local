@@ -97,10 +97,19 @@ impl Database {
         .await?;
         Ok(records)
     }
-    pub async fn get_plan(&self) -> anyhow::Result<i64> {
-        let plan = sqlx::query!("SELECT value FROM plan WHERE id = (SELECT MAX(id) FROM plan)")
-            .fetch_optional(&self.pool)
-            .await?;
+    pub async fn get_plan(&self, date_bounds: &utc::DateBounds) -> anyhow::Result<i64> {
+        let plan = sqlx::query!(
+            "SELECT value
+            FROM plan
+            WHERE created_at >= $1
+            AND created_at < $2
+            ORDER BY created_at DESC
+            LIMIT 1",
+            date_bounds.start,
+            date_bounds.end
+        )
+        .fetch_optional(&self.pool)
+        .await?;
         match plan {
             Some(plan) => Ok(plan.value),
             None => Ok(1_000_000),
