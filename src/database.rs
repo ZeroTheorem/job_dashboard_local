@@ -47,8 +47,8 @@ impl Database {
         Ok(created_record_id.id)
     }
 
-    pub async fn delete_last_record(&self) -> anyhow::Result<()> {
-        sqlx::query!("DELETE FROM daily_revenue WHERE id = (SELECT MAX(id) FROM daily_revenue)",)
+    pub async fn delete_last_record(&self, id: i64) -> anyhow::Result<()> {
+        sqlx::query!("DELETE FROM daily_revenue WHERE id = $1", id)
             .execute(&self.pool)
             .await?;
         Ok(())

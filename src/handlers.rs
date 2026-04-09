@@ -33,8 +33,11 @@ pub async fn create_record_handler(
     Ok(SuccessResponse::CreateRecord { record_id })
 }
 
-pub async fn delete_last(extract::State(state): extract::State<AppState>) -> AppResponse {
-    state.database.delete_last_record().await?;
+pub async fn delete_record(
+    extract::State(state): extract::State<AppState>,
+    extract::Path(id): extract::Path<i64>,
+) -> AppResponse {
+    state.database.delete_last_record(id).await?;
     Ok(SuccessResponse::DeleteRecord)
 }
 

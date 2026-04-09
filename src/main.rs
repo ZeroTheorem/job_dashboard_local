@@ -23,7 +23,7 @@ async fn main() -> anyhow::Result<()> {
     let app = Router::new()
         .route("/records", post(handlers::create_record_handler))
         .route("/dashboard", get(handlers::get_dashboard))
-        .route("/records/last", delete(handlers::delete_last))
+        .route("/records/{id}", delete(handlers::delete_record))
         .route("/records", get(handlers::get_records_handler))
         .route("/salary", get(handlers::get_particular_salary))
         .route("/sales-plan", put(handlers::update_plan))
