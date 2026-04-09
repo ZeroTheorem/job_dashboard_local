@@ -89,7 +89,8 @@ impl Database {
             "SELECT id, worker_name as employee, revenue, created_at as date
             FROM daily_revenue
             WHERE created_at >= $1
-            AND created_at < $2",
+            AND created_at < $2
+            ORDER BY created_at DESC",
             date_bounds.start,
             date_bounds.end
         )
