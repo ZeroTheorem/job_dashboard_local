@@ -1,6 +1,4 @@
 use anyhow::Context;
-use chrono::{DateTime, Utc};
-use serde::Serialize;
 use sqlx::{PgPool, postgres::PgPoolOptions};
 
 use crate::models::{Record, RevenueStats};
