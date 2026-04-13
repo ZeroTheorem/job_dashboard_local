@@ -2,7 +2,6 @@ mod database;
 mod errors_responses;
 mod handlers;
 mod jsons;
-mod models;
 mod salary;
 mod state;
 mod success_responses;

@@ -6,7 +6,7 @@ use axum::{
 };
 use serde_json::json;
 
-use crate::models::Record;
+use crate::database::models::Record;
 
 pub enum SuccessResponse {
     CreateRecord {

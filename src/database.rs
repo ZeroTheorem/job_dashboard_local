@@ -1,7 +1,9 @@
+pub mod models;
+
 use anyhow::Context;
 use sqlx::{PgPool, postgres::PgPoolOptions};
 
-use crate::models::{Record, RevenueStats};
+use crate::database::models::{Record, RevenueStats};
 
 #[derive(Clone)]
 pub struct Database {
