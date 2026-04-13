@@ -33,7 +33,7 @@ pub async fn create_record_handler(
     Ok(SuccessResponse::CreateRecord { record_id })
 }
 
-pub async fn delete_record(
+pub async fn delete_record_handler(
     extract::State(state): extract::State<AppState>,
     extract::Path(id): extract::Path<i64>,
 ) -> AppResponse {
@@ -41,7 +41,7 @@ pub async fn delete_record(
     Ok(SuccessResponse::DeleteRecord)
 }
 
-pub async fn update_plan(
+pub async fn create_plan_handler(
     extract::State(state): extract::State<AppState>,
     extract::Json(body): extract::Json<UpdatePlanBody>,
 ) -> AppResponse {
@@ -64,7 +64,7 @@ pub async fn get_records_handler(
     Ok(SuccessResponse::GetRecords { records })
 }
 
-pub async fn get_particular_salary(
+pub async fn get_particular_salary_handler(
     extract::State(state): extract::State<AppState>,
     date: extract::Query<ParticularDateParams>,
 ) -> AppResponse {
@@ -84,7 +84,7 @@ pub async fn get_particular_salary(
     Ok(SuccessResponse::WorkerSalary { worker_salary })
 }
 
-pub async fn get_dashboard(
+pub async fn get_dashboard_handler(
     extract::State(state): extract::State<AppState>,
     date: extract::Query<ParticularDateParams>,
 ) -> AppResponse {

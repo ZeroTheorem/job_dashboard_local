@@ -1,4 +1,4 @@
-use crate::database::RevenueStats;
+use crate::models::RevenueStats;
 
 const SALARY_PER_DAY: i64 = 1500;
 const OLD_SALARY_PER_DAY: i64 = 3000;

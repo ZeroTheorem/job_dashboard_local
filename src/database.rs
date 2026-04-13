@@ -3,23 +3,11 @@ use chrono::{DateTime, Utc};
 use serde::Serialize;
 use sqlx::{PgPool, postgres::PgPoolOptions};
 
+use crate::models::{Record, RevenueStats};
+
 #[derive(Clone)]
 pub struct Database {
     pool: PgPool,
-}
-
-#[derive(Serialize)]
-pub struct Record {
-    pub id: i64,
-    pub employee: String,
-    pub revenue: i64,
-    pub date: DateTime<Utc>,
-}
-
-pub struct RevenueStats {
-    pub total_shifts: Option<i64>,
-    pub total_revenue: Option<i64>,
-    pub average: Option<i64>,
 }
 
 impl Database {
