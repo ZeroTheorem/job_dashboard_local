@@ -7,8 +7,10 @@ use crate::database::models::{Record, RevenueStats};
 
 #[derive(Clone)]
 pub struct Database {
-    pool: PgPool,
+    pub pool: PgPool,
 }
+
+pub static MIGRATOR: sqlx::migrate::Migrator = sqlx::migrate!("./migrations");
 
 impl Database {
     pub async fn builder() -> anyhow::Result<Self> {
@@ -17,10 +19,7 @@ impl Database {
             .max_connections(5)
             .connect(database_url)
             .await?;
-        sqlx::migrate!("./migrations")
-            .run(&pool)
-            .await
-            .context("error while migrate")?;
+        MIGRATOR.run(&pool).await.context("error while migrate")?;
         Ok(Database { pool })
     }
 

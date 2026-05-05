@@ -1,9 +1,8 @@
 use crate::{
-    errors_responses::Error,
     jsons::{CreateRecordBody, UpdatePlanBody},
+    responses::{ErrorResponse, SuccessResponse},
     salary::{count_monthly_salary, count_old_salary},
     state::AppState,
-    success_responses::SuccessResponse,
 };
 use axum::{extract, response::Result};
 use serde::Deserialize;
@@ -16,7 +15,7 @@ pub struct ParticularDateParams {
     month: u32,
 }
 
-type AppResponse = Result<SuccessResponse, Error>;
+type AppResponse = Result<SuccessResponse, ErrorResponse>;
 
 pub async fn create_record_handler(
     extract::State(state): extract::State<AppState>,
@@ -24,7 +23,7 @@ pub async fn create_record_handler(
 ) -> AppResponse {
     let worker_name = body.employee.to_lowercase();
     if worker_name != "даша" && worker_name != "алена" {
-        return Err(Error::BadRequest);
+        return Err(ErrorResponse::BadRequest);
     }
     let record_id = state
         .database

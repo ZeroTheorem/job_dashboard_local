@@ -1,36 +1,16 @@
-mod database;
-mod errors_responses;
-mod handlers;
-mod jsons;
-mod salary;
-mod state;
-mod success_responses;
-
-use axum::{
-    Router,
-    routing::{delete, get, post, put},
-};
 use dotenv::dotenv;
-use tower_http::services::ServeDir;
+use job_dashboard_backend::create_app_with_state;
+use job_dashboard_backend::state::AppState;
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
     // load env variables
     dotenv().ok();
 
-    let state = state::AppState::builder().await?;
-
-    let app = Router::new()
-        .route("/records", post(handlers::create_record_handler))
-        .route("/dashboard", get(handlers::get_dashboard_handler))
-        .route("/records/{id}", delete(handlers::delete_record_handler))
-        .route("/records", get(handlers::get_records_handler))
-        .route("/salary", get(handlers::get_particular_salary_handler))
-        .route("/sales-plan", put(handlers::create_plan_handler))
-        .with_state(state)
-        .fallback_service(ServeDir::new("dist"));
-
+    let state = AppState::builder().await?;
     let listener = tokio::net::TcpListener::bind("0.0.0.0:3001").await?;
+    let app = create_app_with_state(state);
+
     axum::serve(listener, app).await?;
     Ok(())
 }

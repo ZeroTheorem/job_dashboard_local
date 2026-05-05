@@ -75,3 +75,30 @@ impl IntoResponse for SuccessResponse {
         (status_code, json).into_response()
     }
 }
+
+pub enum ErrorResponse {
+    BadRequest,
+    Internal,
+}
+
+impl IntoResponse for ErrorResponse {
+    fn into_response(self) -> Response<Body> {
+        let (status_code, json) = match self {
+            ErrorResponse::BadRequest => (
+                StatusCode::BAD_REQUEST,
+                Json(json!({"message": "BadRequest"})),
+            ),
+            ErrorResponse::Internal => (
+                StatusCode::INTERNAL_SERVER_ERROR,
+                Json(json!({"message": "Internal server error"})),
+            ),
+        };
+        (status_code, json).into_response()
+    }
+}
+
+impl From<anyhow::Error> for ErrorResponse {
+    fn from(_: anyhow::Error) -> Self {
+        Self::Internal
+    }
+}
